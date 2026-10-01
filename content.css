@@ -1,0 +1,356 @@
+#lingo-local-panel,
+#lingo-local-panel * {
+  box-sizing: border-box;
+}
+
+#lingo-local-panel {
+  --lingo-ink: #233d37;
+  --lingo-muted: #6c807a;
+  --lingo-line: #dfeae5;
+  --lingo-accent: #23856d;
+  position: fixed;
+  z-index: 2147483647;
+  overflow: hidden;
+  max-height: min(560px, calc(100vh - 28px));
+  border: 1px solid rgba(49, 44, 65, 0.12);
+  border-radius: 18px;
+  background: #fff;
+  color: var(--lingo-ink);
+  box-shadow:
+    0 20px 48px rgba(31, 64, 48, 0.14),
+    0 4px 14px rgba(31, 64, 48, 0.06);
+  font-family:
+    Inter, "PingFang SC", "Microsoft YaHei", system-ui, -apple-system,
+    sans-serif;
+  font-size: 14px;
+  line-height: 1.55;
+  text-align: left;
+  animation: lingo-pop 160ms ease-out;
+}
+
+#lingo-local-panel[hidden],
+#lingo-local-panel [hidden] {
+  display: none !important;
+}
+
+.lingo-panel-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 14px 10px 16px;
+}
+
+.lingo-brand-mark {
+  display: grid;
+  width: 32px;
+  height: 32px;
+  flex: 0 0 32px;
+  place-items: center;
+  border-radius: 10px;
+  background: #23856d;
+  color: white;
+  font: 700 16px/1 Georgia, serif;
+  box-shadow: 0 4px 10px rgba(35, 133, 109, 0.12);
+}
+
+.lingo-status-wrap {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.lingo-status-wrap strong {
+  color: var(--lingo-ink);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.lingo-status-wrap span {
+  margin-top: 3px;
+  color: var(--lingo-muted);
+  font-size: 11px;
+}
+
+.lingo-icon-button,
+.lingo-text-button,
+.lingo-alternative-button,
+.lingo-preset-option,
+.lingo-copy-button {
+  border: 0;
+  font: inherit;
+  cursor: pointer;
+}
+
+.lingo-icon-button {
+  display: grid;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  place-items: center;
+  border-radius: 9px;
+  background: transparent;
+  color: #858a81;
+  font-size: 22px;
+  line-height: 1;
+}
+
+.lingo-icon-button:hover {
+  background: #f2f1eb;
+  color: #34372f;
+}
+
+.lingo-panel-body {
+  max-height: 400px;
+  overflow: auto;
+  padding: 4px 18px 8px;
+}
+
+.lingo-source {
+  display: -webkit-box;
+  overflow: hidden;
+  margin: 4px 0 12px;
+  color: #858980;
+  font-size: 12px;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  white-space: pre-wrap;
+}
+
+.lingo-divider {
+  height: 1px;
+  margin-bottom: 14px;
+  background: var(--lingo-line);
+}
+
+.lingo-result {
+  min-height: 44px;
+  color: #252720;
+  font-size: 15px;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
+#lingo-local-panel[data-state="error"] .lingo-result {
+  color: #a33e42;
+}
+
+.lingo-panel-actions {
+  position: relative;
+  display: flex;
+  min-height: 48px;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 14px 11px 18px;
+  border-top: 1px solid #efefe9;
+  background: #f7faf8;
+  justify-content: flex-end;
+}
+
+.lingo-alternative-button {
+  padding: 8px 10px;
+  border-radius: 9px;
+  background: transparent;
+  color: #527863;
+  font-size: 11px;
+  font-weight: 650;
+}
+
+.lingo-alternative-button:hover {
+  background: #eaf5ee;
+  color: #18654f;
+}
+
+.lingo-preset-menu {
+  position: absolute;
+  right: 14px;
+  bottom: 45px;
+  z-index: 3;
+  display: flex;
+  width: 190px;
+  max-height: 220px;
+  overflow-y: auto;
+  flex-direction: column;
+  gap: 3px;
+  padding: 7px;
+  border: 1px solid #ddd9e5;
+  border-radius: 12px;
+  background: #fffefb;
+  box-shadow: 0 14px 34px rgba(39, 31, 56, 0.18);
+}
+
+.lingo-preset-option {
+  width: 100%;
+  padding: 8px 9px;
+  border-radius: 8px;
+  background: transparent;
+  color: #595b54;
+  font-size: 11px;
+  text-align: left;
+}
+
+.lingo-preset-option:hover {
+  background: #eff7f2;
+  color: #18654f;
+}
+
+.lingo-preset-option.active {
+  background: #e5f3eb;
+  color: #18654f;
+  font-weight: 700;
+}
+
+.lingo-preset-menu-loading {
+  padding: 8px 9px;
+  color: #8e9188;
+  font-size: 10px;
+}
+
+.lingo-panel-actions > span {
+  flex: 1;
+  color: #8a8e83;
+  font-size: 10px;
+}
+
+.lingo-copy-button {
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: #e5f3eb;
+  color: #18654f;
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.lingo-copy-button:hover {
+  background: #d6ecdf;
+}
+
+.lingo-text-button {
+  padding: 6px 4px;
+  background: transparent;
+  color: #23856d;
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.lingo-loader {
+  width: 16px;
+  height: 16px;
+  border: 2px solid #d4e8dc;
+  border-top-color: var(--lingo-accent);
+  border-radius: 50%;
+  animation: lingo-spin 0.75s linear infinite;
+}
+
+@keyframes lingo-pop {
+  from {
+    opacity: 0;
+    transform: translateY(5px) scale(0.985);
+  }
+}
+
+@keyframes lingo-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #lingo-local-panel,
+  .lingo-loader {
+    animation: none;
+  }
+}
+
+#lingo-capture-overlay,
+#lingo-capture-overlay * {
+  box-sizing: border-box;
+}
+
+#lingo-capture-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483646;
+  overflow: hidden;
+  cursor: crosshair;
+  user-select: none;
+  touch-action: none;
+  font-family:
+    Inter, "PingFang SC", "Microsoft YaHei", system-ui, -apple-system,
+    sans-serif;
+}
+
+.lingo-capture-tip {
+  position: fixed;
+  top: 18px;
+  left: 50%;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 13px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 11px;
+  background: rgba(27, 24, 35, 0.88);
+  color: white;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  font-size: 12px;
+  line-height: 1;
+  transform: translateX(-50%);
+  backdrop-filter: blur(10px);
+}
+
+.lingo-capture-tip kbd {
+  margin-left: 5px;
+  padding: 3px 5px;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #f0eaff;
+  font: 600 9px/1 system-ui, sans-serif;
+}
+
+.lingo-capture-crosshair {
+  color: #98dbc2;
+  font-size: 16px;
+}
+
+.lingo-capture-box {
+  position: fixed;
+  z-index: 1;
+  min-width: 1px;
+  min-height: 1px;
+  border: 2px solid #72caaa;
+  background: transparent;
+  box-shadow:
+    0 0 0 9999px rgba(17, 14, 24, 0.58),
+    0 0 0 1px rgba(255, 255, 255, 0.22) inset;
+}
+
+.lingo-capture-box[hidden] {
+  display: none;
+}
+
+.lingo-capture-box > span {
+  position: absolute;
+  right: -2px;
+  bottom: -27px;
+  padding: 4px 7px;
+  border-radius: 6px;
+  background: #23856d;
+  color: white;
+  font: 600 9px/1 system-ui, sans-serif;
+  white-space: nowrap;
+}
+#lingo-local-panel .lingo-warning {
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: #fff0d4;
+  color: #86560b;
+  font-size: 12px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}

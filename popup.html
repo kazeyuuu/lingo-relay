@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>译流 · LingoRelay</title>
+    <link rel="stylesheet" href="shared.css" />
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <main class="popup-shell">
+      <header class="popup-header">
+        <div class="brand">
+          <div class="brand-mark" aria-hidden="true">L</div>
+          <div class="brand-copy">
+            <strong>LingoRelay</strong>
+            <span>译流 · 网页翻译</span>
+          </div>
+        </div>
+        <button class="icon-button" id="openSettings" title="设置" aria-label="打开设置">
+          <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-2.83 2.83-.06-.06A1.7 1.7 0 0 0 15 19.4a1.7 1.7 0 0 0-1 .6 1.7 1.7 0 0 0-.4 1.1V21H9.6v-.1A1.7 1.7 0 0 0 8.5 19.4a1.7 1.7 0 0 0-1.88.34l-.06.06-2.83-2.83.06-.06A1.7 1.7 0 0 0 4.1 15a1.7 1.7 0 0 0-.6-1 1.7 1.7 0 0 0-1.1-.4H2.3V9.6h.1A1.7 1.7 0 0 0 4.1 8.5a1.7 1.7 0 0 0-.34-1.88l-.06-.06 2.83-2.83.06.06A1.7 1.7 0 0 0 8.5 4.1a1.7 1.7 0 0 0 1-.6 1.7 1.7 0 0 0 .4-1.1V2.3h4v.1A1.7 1.7 0 0 0 15 4.1a1.7 1.7 0 0 0 1.88-.34l.06-.06 2.83 2.83-.06.06A1.7 1.7 0 0 0 19.4 8.5a1.7 1.7 0 0 0 .6 1 1.7 1.7 0 0 0 1.1.4h.1v4h-.1A1.7 1.7 0 0 0 19.4 15Z"></path>
+          </svg>
+        </button>
+      </header>
+
+      <section class="history-toolbar">
+        <div>
+          <h1>翻译历史</h1>
+          <span id="historyCount">0 条记录</span>
+        </div>
+        <button class="clear-button" id="clearHistory" hidden>清空</button>
+      </section>
+
+      <section class="history-list" id="historyList" aria-live="polite"></section>
+
+      <section class="empty-state" id="emptyState">
+        <div class="empty-illustration" aria-hidden="true">
+          <span>文</span><span>A</span>
+        </div>
+        <h2>还没有翻译记录</h2>
+        <p id="shortcutInstruction">
+          正在读取快捷键…
+        </p>
+      </section>
+
+    </main>
+    <div class="toast" id="toast" hidden></div>
+    <script src="popup.js"></script>
+  </body>
+</html>

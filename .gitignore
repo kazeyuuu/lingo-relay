@@ -1,0 +1,26 @@
+.dev-schema/
+bridge/.state/
+node_modules/
+*.log
+dist/
+
+# Legacy local-only backups, not part of the public extension.
+bridge/
+native-client.js
+tests/bridge.test.mjs
+tests/codex-client.test.mjs
+tests/native-client.test.cjs
+tests/native-host.test.mjs
+
+# Local credentials, browser profiles and editor state.
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>译流 · LingoRelay 设置</title>
+    <link rel="stylesheet" href="shared.css" />
+    <link rel="stylesheet" href="options.css" />
+  </head>
+  <body>
+    <div class="options-layout">
+      <aside class="options-sidebar">
+        <div class="brand">
+          <div class="brand-mark" aria-hidden="true">L</div>
+          <div class="brand-copy">
+            <strong>LingoRelay</strong>
+            <span>译流 · 网页翻译</span>
+          </div>
+        </div>
+
+        <nav aria-label="设置导航">
+          <a href="#shortcuts"><span>⌘</span> 快捷键</a>
+          <a href="#connection" class="active"><span>◉</span> 模型连接</a>
+          <a href="#behavior"><span>文</span> 翻译提示词</a>
+        </nav>
+
+        <span class="sidebar-version">LingoRelay · 1.3.1</span>
+      </aside>
+
+      <main class="options-main">
+        <header class="page-intro">
+          <h1>设置</h1>
+        </header>
+
+        <section class="shortcut-card" id="shortcuts" aria-label="快捷键">
+          <div class="shortcut-list">
+            <div class="shortcut-row">
+              <div class="shortcut-copy">
+                <span class="shortcut-icon" aria-hidden="true">文</span>
+                <div>
+                  <strong>划词翻译</strong>
+                </div>
+              </div>
+              <div class="shortcut-keys" id="textShortcutKeys" aria-live="polite">
+                <span class="shortcut-loading">读取中…</span>
+              </div>
+            </div>
+            <div class="shortcut-row">
+              <div class="shortcut-copy">
+                <span class="shortcut-icon capture" aria-hidden="true">⌗</span>
+                <div>
+                  <strong>截图翻译</strong>
+                </div>
+              </div>
+              <div class="shortcut-keys" id="captureShortcutKeys" aria-live="polite">
+                <span class="shortcut-loading">读取中…</span>
+              </div>
+            </div>
+          </div>
+          <button class="ghost-button shortcut-button" type="button" id="openShortcuts">
+            修改快捷键
+          </button>
+        </section>
+
+        <form id="settingsForm">
+          <section class="settings-card" id="connection">
+            <div class="section-heading">
+              <div>
+                <h2>模型连接</h2>
+              </div>
+              <span class="connection-badge" id="connectionBadge">未检测</span>
+            </div>
+
+            <div class="routing-grid"><div class="field">
+              <label for="primaryProvider">优先方案</label>
+              <select id="primaryProvider"></select>
+            </div>
+            <div class="field">
+              <label for="backupProvider">备用方案</label><select id="backupProvider"></select>
+            </div></div>
+            <label class="fallback-choice"><input type="checkbox" id="autoFallback" />
+              失败时自动切换备用方案
+            </label>
+            <p class="field-help">内容会发送至备用服务，可能产生费用。</p>
+            <div class="provider-editor">
+              <div class="field">
+                <div class="label-row"><label for="providerSlot">编辑连接方案</label><button type="button" class="inline-button" id="addProvider">＋ 新增方案</button></div>
+                <select id="providerSlot"></select>
+              </div>
+              <div class="provider-columns">
+                <div class="field"><label for="providerName">方案名称</label><input id="providerName" maxlength="50" /></div>
+                <div class="field"><label for="providerType">服务类型</label>
+                  <select id="providerType">
+                    <option value="local">本地 LM Studio</option>
+                    <option value="openai">OpenAI 兼容接口</option>
+                    <option value="codex">ChatGPT / Codex 订阅</option>
+                  </select>
+                </div>
+              </div>
+              <div class="field" id="baseUrlField">
+                <label for="baseUrl">API 基础地址</label>
+                <input id="baseUrl" type="url" autocomplete="off" placeholder="https://api.openai.com/v1" />
+                <p class="field-help">填到 /v1 或网关基础路径。</p>
+              </div>
+              <div class="field" id="apiKeyField">
+                <label for="apiKey" id="apiKeyLabel">API Key（本地服务可留空）</label>
+                <input id="apiKey" type="password" autocomplete="new-password" spellcheck="false" />
+              </div>
+              <div class="field" id="protocolField">
+                <label for="providerProtocol">接口协议</label>
+                <select id="providerProtocol"><option value="chat">Chat Completions</option><option value="responses">Responses API</option></select>
+              </div>
+              <div class="field">
+                <div class="label-row"><label for="model">模型 ID</label><button class="inline-button" type="button" id="refreshModels">↻ 刷新模型</button></div>
+                <select id="availableModels" aria-label="可用模型列表"><option value="">请先刷新模型列表</option></select>
+                <input id="model" autocomplete="off" aria-label="模型 ID（可手动填写）" placeholder="或手动输入模型 ID" />
+                <p class="field-help" id="modelHelp" aria-live="polite"></p>
+              </div>
+              <div id="codexAuth" hidden>
+                <button type="button" class="secondary-button" id="codexLogin">登录 ChatGPT / Codex</button>
+                <button type="button" class="ghost-button" id="codexStatus">刷新状态</button>
+                <button type="button" class="ghost-button" id="codexLogout">退出登录</button>
+                <p class="field-help" id="authStatus" aria-live="polite"></p>
+                <div class="device-code-panel" id="codexDevicePanel" hidden>
+                  <p>在授权页输入设备码</p>
+                  <code id="codexDeviceCode"></code>
+                  <button type="button" class="inline-button" id="copyDeviceCode">复制设备码</button>
+                  <p class="field-help" id="codexDeviceExpiry"></p>
+                  <a class="inline-button" href="https://auth.openai.com/codex/device" target="_blank" rel="noopener noreferrer">打开官方授权页 ↗</a>
+                  <button type="button" class="ghost-button" id="codexCancel">取消此次登录</button>
+                  <p class="field-help">请勿分享设备码，只确认自己发起的登录。</p>
+                </div>
+                <details id="codexLoginHelp">
+                  <summary>登录遇到问题？</summary>
+                  <p>在 ChatGPT「设置 → 安全」中启用设备码登录。受管理账号请联系管理员。</p>
+                  <p>订阅接入为实验性功能，模型权限以账号为准。所有订阅方案共用同一登录。</p>
+                </details>
+              </div>
+              <div class="prompt-editor-actions">
+                <button class="ghost-button compact-button" type="button" id="testConnection">测试连接</button>
+                <button class="danger-button compact-button" type="button" id="deleteProvider">删除方案</button>
+                <button class="secondary-button compact-button" type="button" id="saveProvider">保存当前方案</button>
+              </div>
+              <p class="field-help">优先与备用选择需在底部保存。</p>
+            </div>
+          </section>
+
+          <section class="settings-card" id="behavior">
+            <div class="section-heading">
+              <div>
+                <h2>翻译提示词</h2>
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="defaultPreset">默认翻译方案</label>
+              <select id="defaultPreset" name="defaultPreset" required></select>
+              <p class="field-help">用于右键与快捷键翻译。</p>
+            </div>
+
+            <div class="prompt-library">
+              <aside class="prompt-library-list">
+                <div class="prompt-library-title">
+                  <span>提示词方案</span>
+                  <button class="inline-button" type="button" id="newPreset">＋ 新建</button>
+                </div>
+                <div class="preset-list" id="presetList"></div>
+              </aside>
+
+              <div class="prompt-editor">
+                <div class="field">
+                  <label for="presetName">方案名称</label>
+                  <input id="presetName" name="presetName" maxlength="40" required />
+                </div>
+                <div class="field">
+                  <div class="label-row">
+                    <label for="systemPrompt">翻译提示词</label>
+                    <span class="character-count" id="promptCount">0 字</span>
+                  </div>
+                  <textarea id="systemPrompt" name="systemPrompt" rows="8" required></textarea>
+                </div>
+                <div class="prompt-editor-actions">
+                  <button class="ghost-button compact-button" type="button" id="resetPrompt">
+                    恢复默认
+                  </button>
+                  <button class="danger-button compact-button" type="button" id="deletePreset">
+                    删除方案
+                  </button>
+                  <button class="secondary-button compact-button" type="button" id="savePreset">
+                    保存到方案库
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="field">
+              <div class="label-row">
+                <label for="imagePrompt">截图识别提示词</label>
+                <button class="inline-button" type="button" id="resetImagePrompt">恢复默认</button>
+              </div>
+              <textarea
+                class="compact-textarea"
+                id="imagePrompt"
+                name="imagePrompt"
+                rows="4"
+                required
+              ></textarea>
+              <p class="field-help">截图翻译需使用视觉模型。</p>
+            </div>
+
+          </section>
+          <details class="data-note"><summary>数据与权限</summary><p>密钥与登录凭据保存在浏览器本机，未加密。在线服务接收本次输入。历史可在扩展弹窗中删除，不参与翻译请求。</p></details>
+
+          <div class="save-bar">
+            <p id="saveHint">修改设置后请保存</p>
+            <button class="primary-button" type="submit" id="saveSettings">保存设置</button>
+          </div>
+        </form>
+      </main>
+    </div>
+    <div class="toast" id="toast" hidden></div>
+    <script src="providers.js"></script>
+    <script src="provider-settings.js"></script>
+    <script src="options.js"></script>
+  </body>
+</html>
